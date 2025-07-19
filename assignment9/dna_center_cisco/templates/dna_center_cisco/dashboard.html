@@ -1,0 +1,53 @@
+<h1>DNA Center Dashboard</h1>
+
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+
+<h2>🔑 Token</h2>
+<p><strong>{{ token|default:"[Unavailable]" }}</strong></p>
+
+<h2>📡 Network Devices</h2>
+<table border="1">
+  <tr>
+    <th>Hostname</th>
+    <th>IP Address</th>
+    <th>Platform</th>
+    <th>Status</th>
+  </tr>
+  {% for d in devices %}
+  <tr>
+    <td>{{ d.hostname }}</td>
+    <td>{{ d.managementIpAddress }}</td>
+    <td>{{ d.platformId }}</td>
+    <td>{{ d.reachabilityStatus }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>🔌 Show Interfaces</h2>
+<form method="get">
+  <label>Enter IP address:</label>
+  <input type="text" name="ip" value="{{ ip|default:'' }}" />
+  <button type="submit">Show Interfaces</button>
+</form>
+
+{% if interfaces %}
+<h3>Interfaces for {{ ip }}</h3>
+<table border="1">
+  <tr>
+    <th>Port</th>
+    <th>Status</th>
+    <th>VLAN</th>
+    <th>Speed</th>
+  </tr>
+  {% for intf in interfaces %}
+  <tr>
+    <td>{{ intf.portName }}</td>
+    <td>{{ intf.status }}</td>
+    <td>{{ intf.vlanId }}</td>
+    <td>{{ intf.speed }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
